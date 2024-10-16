@@ -1,5 +1,5 @@
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Posts
 from .forms import PostForm
 
@@ -22,3 +22,10 @@ def create_post(request):
     if request.method == 'GET':
         context = {'form': PostForm()}
         return render(request, 'Posts/post_form.html', context)
+    elif request.method =='POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            return render(request,'post/post_form.html',{'form':form})
