@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Delete Post</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <p>
+         <label >Вы действительно хотите удалить пост?</label>
+
+        </p>
+        <input type="submit" value="Удалить"/>
+
+    </form>
+<button> <a href="{% url 'home' %}">Беги от сюда</a></button>
+{% endblock content %}
+
+</body>
+</html>
