@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
-from .forms import LoginForm
+from .forms import LoginForm,RegisterForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
 def sign_in(request):
     if request.method == 'GET':
         form=LoginForm()
@@ -23,3 +25,13 @@ def sign_out(request):
     messages.success(request, f'Вы вышли из аккаунта')
     return redirect('login')
 # Create your views here.
+def RegisterView(FormView):
+    template_name='register.html'
+    form_class=RegisterForm
+    redirect_authenticated_user = True
+    success_url=reverse_lazy('home')
+    def form_valid(self,form):
+        user=form.save()
+        if user:
+            login(self.request,user)
+        return super(RegisterView,self).form_valid(form)
